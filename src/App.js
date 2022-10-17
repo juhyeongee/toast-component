@@ -1,47 +1,16 @@
-import "./App.css";
 import { Toast } from "./components/Toast";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { keyframes } from "styled-components";
+//styled-component와 keyframe, useRef 이용하여 애니메이션을 넣으려 했으나, 실패했습니다.
 
 function App() {
   const [isVisible, setIsVisible] = useState(false);
-  const [check, setCheck] = useState(true);
+  const [text, setText] = useState();
 
-  useEffect(() => {
-    console.log("isVisible", isVisible);
-  }, [isVisible]);
-
-  useEffect(() => {
-    console.log("check", check);
-  }, [check]);
-
-  const positionY = useCallback(() => {
-    const upKeyframe = keyframes`
-      0% {
-          bottom: -80px;
-          opacity: 0.5;
-      }
-      100% {
-          bottom: 100px;
-          opacity: 1;
-      }
-    `;
-    const downKeyframe = keyframes`
-    0% {
-      bottom: 100px;
-        opacity: 1;
-    }
-    100% {
-      bottom: -80px;
-        opacity: 0.5;
-    }
-  `;
-    if (isVisible) {
-      return upKeyframe;
-    } else {
-      return downKeyframe;
-    }
-  }, [isVisible]);
+  const showToastMessage = (message) => {
+    setIsVisible(true);
+    setText(message);
+  };
 
   return (
     <div
@@ -49,22 +18,19 @@ function App() {
         display: "flex",
         width: "100%",
         height: "100vh",
-        background: check ? "black" : "white",
         justifyContent: "center",
         alignItems: "center",
+        scrollbarWidth: "none",
       }}
     >
-      <button type="button" onClick={() => setIsVisible(!isVisible)}>
-        토스트 올리기
-      </button>
-      <button type="button" onClick={() => setCheck(!check)}>
-        다른 상태변경
+      <button type="button" onClick={() => showToastMessage("My message")}>
+        show Toast Component
       </button>
       <Toast
-        positionY={positionY}
-        text="toast Text message"
         setIsVisible={setIsVisible}
         isVisible={isVisible}
+        text={text}
+        position="bottom-right"
       />
     </div>
   );

@@ -4,5 +4,3 @@
 
 github Link :
 https://github.com/juhyeongee/toast-component
-
-아쉽습니다...
